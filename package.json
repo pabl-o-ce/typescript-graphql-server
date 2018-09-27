@@ -6,7 +6,6 @@
   "scripts": {
     "start": "docker-compose up -d",
     "down": "docker-compose down",
-    "build:watch": "webpack -w",
     "build": "webpack",
     "app": "docker logs api --follow",
     "commit": "npx git-cz",

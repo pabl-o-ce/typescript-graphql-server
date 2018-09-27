@@ -1,3 +1,9 @@
+# Dist
+dist
+# SQL
+data
+# REDIS
+redis
 # Logs
 logs
 *.log

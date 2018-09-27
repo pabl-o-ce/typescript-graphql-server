@@ -1,2 +1,2 @@
-# typescript-graphql-server
-boilerplate help me start graphql adventure
+# Typescript graphql server
+boilerplate help me start graphql adventure API

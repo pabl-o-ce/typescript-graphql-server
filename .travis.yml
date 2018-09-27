@@ -1,0 +1,21 @@
+dist: trusty
+sudo: required
+language: node_js
+cache:
+  directories:
+    - ~/.npm
+notifications:
+  email: false
+node_js:
+  - 'node'
+branches:
+  only:
+    - master
+install:
+  - npm install
+before_script:
+  - npm prune
+script:
+  - npm run build --env.prod
+# after_success:
+#   - npm run travis-deploy-once "npm run semantic-release"

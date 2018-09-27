@@ -1,0 +1,73 @@
+version: "3.7"
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: api
+    ports:
+      - "3000:3000"
+    links:
+      - mariadb
+      - redis
+    restart: 'always'
+    volumes:
+     - .:/usr/src/api
+    networks: 
+      - graphql-api
+  mariadb:
+    container_name: mariadb
+    image: mariadb:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD=123
+      - MYSQL_DATABASE=graphql
+      - MYSQL_USER=admin
+      - MYSQL_PASSWORD=123
+    expose:
+      - "3306"
+    volumes:
+      - ./data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks: 
+      graphql-api:
+        aliases:
+          - database
+  redis:
+    image: redis
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./cache:/data
+    networks: 
+      graphql-api:
+        aliases:
+          - redis
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    container_name: redis-commander
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+    ports:
+      - "8081:8081"
+    networks: 
+      starcines-api:
+        aliases:
+          - rediscommander
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    links:
+      - mariadb
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOST=mariadb
+      - PMA_PORT=3306
+      - PMA_USER=root
+      - PMA_PASSWORD=P0scye123
+    ports:
+    - '8080:80'
+    networks: 
+      - graphql-api
+networks:
+  graphql-api:
