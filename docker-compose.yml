@@ -64,7 +64,7 @@ services:
       - PMA_HOST=mariadb
       - PMA_PORT=3306
       - PMA_USER=root
-      - PMA_PASSWORD=P0scye123
+      - PMA_PASSWORD=123
     ports:
     - '8080:80'
     networks: 
