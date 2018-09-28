@@ -35,7 +35,9 @@
     "rxjs": "^6.3.3"
   },
   "devDependencies": {
-    "cz-conventional-changelog": "^2.1.0"
+    "cz-conventional-changelog": "^2.1.0",
+    "tslint": "^5.11.0",
+    "typescript": "^3.1.1"
   },
   "config": {
     "commitizen": {
