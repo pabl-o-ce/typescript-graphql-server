@@ -1,0 +1,64 @@
+directive @date(
+  defaultFormat: String = "YYYY-MM-DD HH:mm:ss.SSS"
+) on FIELD_DEFINITION
+scalar Date
+type User {
+    id: String!
+    username: String!
+    email: String!
+    password: String!
+    firstname: String!
+    lastname: String!
+    resetPassword: String
+    resetExpire: Date
+    createdAt: Date!
+    updatedAt: Date!
+    deletedAt: Date
+}
+type Query {
+    """Get user by id or name."""
+    user(id: String!): User
+    """Get users."""
+    users: [User]
+}
+type Mutation {
+    """Create user."""
+    createUser(user: CreateUser!): User
+    
+    """Update user."""
+    updateUser(id: String!, user: UpdateUser): User
+    
+    """Delete user."""
+    deleteUser(id: String!): Boolean
+    
+    """Login Authentication"""
+    login(input: Credentials!): Token
+    
+    """Forget password"""
+    forgetPassword(username: String!): String
+    
+    """Reset password"""
+    resetPassword(token: String!, password: String!): String
+}
+input CreateUser {
+    username: String!
+    email: String!
+    password: String!
+    firstname: String!
+    lastname: String!
+}
+input UpdateUser {
+    username: String
+    email: String
+    password: String
+    firstname: String
+    lastname: String
+}
+input Credentials {
+    username: String!
+    password: String!
+}
+input ResetPassword {
+    token: String!
+    password: String!
+}
