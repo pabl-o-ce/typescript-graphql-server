@@ -3,4 +3,4 @@
 
 boilerplate help me start graphql adventure API
 
-[![Build Status] (https://badgen.net/travis/pablocarreraest/typescript-graphql-server)](https://travis-ci.org/pablocarreraest/typescript-graphql-server)
+[![Build Status](https://badgen.net/travis/pablocarreraest/typescript-graphql-server)](https://travis-ci.org/pablocarreraest/typescript-graphql-server)
