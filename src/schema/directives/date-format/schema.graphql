@@ -1,0 +1,3 @@
+directive @date(
+  defaultFormat: String = "YYYY-MM-DD HH:mm:ss.SSS"
+) on FIELD_DEFINITION

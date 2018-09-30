@@ -1,5 +1,6 @@
-import { DateFormatDirective } from './date-format';
+import { DateFormatDirective, DateFormatDirectiveDefs } from './date-format';
 
 export {
     DateFormatDirective,
+    DateFormatDirectiveDefs
 };

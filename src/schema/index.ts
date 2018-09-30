@@ -1,10 +1,11 @@
 import { makeExecutableSchema } from 'apollo-server';
 import { mergeResolvers, mergeTypes } from 'merge-graphql-schemas';
 
-import { DateFormatDirective } from './directives';
+import { DateFormatDirective, DateFormatDirectiveDefs } from './directives';
 import { UserResolver, UserTypeDefs } from './user';
 
 const typeDefs = mergeTypes([
+    DateFormatDirectiveDefs,
     UserTypeDefs,
 ], { all: true });
 const resolvers = mergeResolvers([
@@ -13,9 +14,9 @@ const resolvers = mergeResolvers([
 const schema = makeExecutableSchema({
     typeDefs,
     resolvers,
-    schemaDirectives: {
-        date: DateFormatDirective,
-    },
+    // schemaDirectives: {
+    //     date: DateFormatDirective,
+    // },
 });
 
 export { schema };
