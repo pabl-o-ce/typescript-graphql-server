@@ -1,5 +1,5 @@
 # node latest
-FROM node:8-alpine
+FROM node:10.12-alpine
 
 # Change working directory
 WORKDIR /usr/src/api
