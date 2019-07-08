@@ -35,7 +35,7 @@
     "graphql-tools": "^4.0.0",
     "merge-graphql-schemas": "^1.5.7",
     "moment": "^2.22.2",
-    "moment-timezone": "^0.5.21",
+    "moment-timezone": "^0.5.26",
     "redis": "^2.8.0",
     "rxjs": "^6.3.3",
     "typeorm": "^0.2.7"
