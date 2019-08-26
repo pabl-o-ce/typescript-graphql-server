@@ -43,7 +43,7 @@
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
     "@types/dotenv": "^4.0.3",
-    "@types/graphql": "^14.0.1",
+    "@types/graphql": "^14.5.0",
     "@types/moment-timezone": "^0.5.9",
     "@types/node": "^10.11.3",
     "cz-conventional-changelog": "^2.1.0",
