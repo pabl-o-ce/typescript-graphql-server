@@ -1,54 +1,70 @@
 import { ApolloServer, ServerInfo } from 'apollo-server';
-import { RedisCache } from 'apollo-server-cache-redis';
+import { ApolloServerPluginLandingPageGraphQLPlayground, ApolloServerPluginLandingPageDisabled, ApolloServerPluginCacheControl } from 'apollo-server-core';
+import { bold, blueBright, greenBright, magentaBright, underline, yellowBright } from 'chalk';
+import { config } from 'dotenv';
 import { Connection } from 'typeorm';
-
-import * as dotenv from 'dotenv';
 
 import { db } from './db';
 import { schema } from './schema';
+//import { authCliente } from './auth';
+import { textSync } from 'figlet';
 
-dotenv.config();
+config();
 
 export async function up (): Promise<void> {
   try {
-    const database: Connection = await db();
     // Starting Application Server
+    const database: Connection = await db();
     const server: ApolloServer = new ApolloServer({
       schema,
-      context: () => ({
-        db: database,
-      }),
-      playground: {
-        settings: {
-          'editor.cursorShape': 'line',
-          'editor.fontFamily': `-apple-system, BlinkMacSystemFont, 'Source Code Pro', 'Consolas', 'Inconsolata', 'Droid Sans Mono', 'Monaco', monospace`,
-          'editor.theme': 'dark',
-          'tracing.hideTracingResponse': false,
-        },
+      context: async ({ req }) => {
+        let usr;
+        const token = req.headers.authorization || '';
+        try {
+          // usr = await authCliente(token, database);
+        } catch (error) {
+          throw error;
+        } finally {
+          return {
+            db: database,
+            user: (usr) ? usr : null
+          };
+        } 
       },
-      tracing: true,
-      cacheControl: {
-        calculateHttpHeaders: true,
-        stripFormattedExtensions: true,
-      },
-      engine: {
-        apiKey: process.env.ENGINE_API_KEY,
-      },
-      persistedQueries: {
-        cache: new RedisCache({
-          host: process.env.REDIS_HOST,
-          port: process.env.REDIS_PORT,
+      debug: (process.env.DEBUG === 'true'),
+      plugins: [
+        process.env.NODE_ENV === 'production' ? ApolloServerPluginLandingPageDisabled() : ApolloServerPluginLandingPageGraphQLPlayground({
+          settings: {
+            'editor.cursorShape': 'line',
+            'editor.theme': 'dark',
+            'tracing.hideTracingResponse': false,
+        }}),
+        ApolloServerPluginCacheControl({
+          defaultMaxAge: 2000,
+          calculateHttpHeaders: true,
         }),
-      },
+      ],
     });
-    const info: ServerInfo = await server.listen({ port: 3000 });
-
-    console.log(`🚀 Server: ${info.url.slice(0, -1)}`);
-    console.log(`🌋 Graphql: ${info.url.slice(0, -1)}${info.subscriptionsPath}`);
-    console.log(`⚡️ Subscriptions: ${info.subscriptionsUrl}`);
-    console.log(`☁️ Database: ${database.name}`);
+    const info: ServerInfo = await server.listen({
+      port: process.env.PORT,
+    });
+    console.log(`${yellowBright('')} ${bold.greenBright('')}`);
+    console.log(`${yellowBright('')} ${bold.greenBright('')}`);
+    console.log(`${yellowBright('')} ${bold.blueBright('')} ${yellowBright('')}${bold.greenBright('')}`);
+    console.log(`${bold.greenBright('                                  ')}`);
+    console.log(magentaBright(textSync('POSCYE', 'Small Shadow')));
+    console.log(`${yellowBright('')} ${bold.blueBright('')} ${yellowBright('')}${bold.greenBright('')}`);
+    console.log(`${yellowBright('')} ${bold.greenBright('')}`);
+    console.log(`${yellowBright('')} ${bold.greenBright('')}`);
+    console.log(blueBright('⊶⊶⊶⊶⊶⊶⊶⊶⊶⊶⊶⊶⊶⊶⊶⊶⊶⊶⊶⊶⊶⊶⊶⊶⊶⊶⊶⊶⊶⊶⊶⊶⊶⊶⊶⊶⊶⊶⊶⊶⊶'));
+    console.log(`${bold.greenBright(' Server:           ')}${underline.blueBright(info.url.slice(0, -1))}`);
+    console.log(`${bold.greenBright(' Database:         ')}${bold.blueBright(database.name)}`);
+    console.log(`${greenBright.bold(' Enviroment:      ')} ${bold.blueBright(process.env.NODE_ENV)}`)
   } catch (err) {
-    console.log(`💩 Error: 💩💩💩`);
+    console.log(bold.red('ERROR'));
     throw err;
   }
 }
+
+
+/// @#YD$2euRsN%S2?T

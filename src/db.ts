@@ -1,40 +1,29 @@
-import * as dotenv from 'dotenv';
+import { config } from 'dotenv';
+import { red } from 'chalk';
 import { Connection, createConnection } from 'typeorm';
-import { User } from './schema/user';
 
-dotenv.config();
+config();
 
 export async function db (): Promise<Connection> {
   try {
     const connection: Connection = await createConnection({
       name: process.env.DB_NAME,
-      type: `mariadb`,
+      type: 'mssql',
       host: process.env.DB_HOST,
-      port: +process.env.DB_PORT,
+      port: parseInt(process.env.DB_PORT, 10),
       username: process.env.DB_USER,
       password: process.env.DB_PASS,
       database: process.env.DB_NAME,
-      timezone: process.env.DB_TIMEZONE,
-      charset: process.env.DB_CHARSET,
-      synchronize: true,
+      entities: [],
+      subscribers: [],
+      pool: { max: 10, min: 0, idleTimeoutMillis: 10000 },
+      synchronize: false,
       logging: ['query', 'error'],
-      entities: [
-        User,
-      ],
-      subscribers: [
-      ],
-      cache: {
-        type: 'redis',
-        options: {
-            host: process.env.REDIS_HOST,
-            port: process.env.REDIS_PORT,
-        },
-      },
+      options: { encrypt: false, debug: { data: (process.env.DEBUG === 'true'), payload: (process.env.DEBUG === 'true')  } },
     });
     return connection;
   } catch (err) {
-    console.log('ErrorDB:');
-    console.log(err);
+    console.log(`${red('DB ERROR')}`);
     throw err;
   }
 }
